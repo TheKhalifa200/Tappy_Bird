@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://eqf88mqij5r0"]
+
+[ext_resource type="Texture2D" uid="uid://cans3ib37iggd" path="res://Assets/background/rocks_2.png" id="1_b8n5y"]
+[ext_resource type="Script" uid="uid://blgwyur5wr0lb" path="res://Scenes/Game/Node.gd" id="1_jj1og"]
+[ext_resource type="PackedScene" uid="uid://03srwbfxlqf" path="res://Scenes/ScrollingBg/ScrollingBg.tscn" id="2_bl7md"]
+[ext_resource type="PackedScene" uid="uid://6n4n5w1i3ox" path="res://Scenes/Plane/Tappy.tscn" id="2_skq3t"]
+[ext_resource type="PackedScene" uid="uid://bles33wu866yv" path="res://Scenes/Barrier/Barrier.tscn" id="3_uh75x"]
+[ext_resource type="PackedScene" uid="uid://c0odnw8wfqrrr" path="res://Scenes/GameUi/GameUi.tscn" id="5_jj1og"]
+
+[node name="Game" type="Node" unique_id=1527631231]
+script = ExtResource("1_jj1og")
+
+[node name="ScrollingBg" parent="." unique_id=147763588 instance=ExtResource("2_bl7md")]
+scale = Vector2(0.79, 0.79)
+
+[node name="Rocks2" type="Sprite2D" parent="." unique_id=1438385777]
+visible = false
+position = Vector2(964, 316)
+texture = ExtResource("1_b8n5y")
+
+[node name="Tappy" parent="." unique_id=596132366 instance=ExtResource("2_skq3t")]
+position = Vector2(230, 464)
+
+[node name="Barrier" parent="." unique_id=1598177269 instance=ExtResource("3_uh75x")]
+position = Vector2(-1, -1)
+
+[node name="PipesHolder" type="Node" parent="." unique_id=1523643703]
+
+[node name="UpperSpawn" type="Marker2D" parent="." unique_id=647701202]
+position = Vector2(530, 230)
+
+[node name="LowerSpawn" type="Marker2D" parent="." unique_id=1435775579]
+position = Vector2(530, 550)
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=923919343]
+wait_time = 4.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=496391681]
+
+[node name="GameUi" parent="CanvasLayer" unique_id=2049383316 instance=ExtResource("5_jj1og")]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

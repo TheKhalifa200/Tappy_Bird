@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://6n4n5w1i3ox"]
+
+[ext_resource type="Script" uid="uid://c1yxpydhgqlja" path="res://Scenes/Plane/Tappy.gd" id="1_0w1a5"]
+[ext_resource type="Texture2D" uid="uid://bk1weshdrxkh8" path="res://Assets/plane/planes_sheet.png" id="1_w16ba"]
+[ext_resource type="AudioStream" uid="uid://dr4o5p8h56wd" path="res://Assets/audio/engine.mp3" id="3_chsoj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0w1a5"]
+atlas = ExtResource("1_w16ba")
+region = Rect2(0, 0, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chsoj"]
+atlas = ExtResource("1_w16ba")
+region = Rect2(88, 0, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rg0yv"]
+atlas = ExtResource("1_w16ba")
+region = Rect2(176, 0, 88, 73)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nlyih"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0w1a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chsoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rg0yv")
+}],
+"loop": true,
+"name": &"Fly",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w16ba"]
+radius = 26.019224
+
+[sub_resource type="Animation" id="Animation_0w1a5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_chsoj"]
+resource_name = "thrust"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.6614797865058505, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rg0yv"]
+_data = {
+&"RESET": SubResource("Animation_0w1a5"),
+&"thrust": SubResource("Animation_chsoj")
+}
+
+[node name="Tappy" type="CharacterBody2D" unique_id=596132366]
+collision_layer = 2
+script = ExtResource("1_0w1a5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=15175192]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_nlyih")
+animation = &"Fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=312464524]
+shape = SubResource("CircleShape2D_w16ba")
+
+[node name="Thrust" type="AnimationPlayer" parent="." unique_id=1935654241]
+libraries/ = SubResource("AnimationLibrary_rg0yv")
+
+[node name="Engine" type="AudioStreamPlayer" parent="." unique_id=1572686559]
+stream = ExtResource("3_chsoj")
+volume_db = -17.333
+autoplay = true
+parameters/looping = true
